@@ -10,6 +10,7 @@ import android.Manifest;
 import android.app.SearchManager;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Sms> smses = new ArrayList<Sms>();
     Sms sms;
     SmsAdapter smsAdapter;
+    DatabaseTable databaseTable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +60,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         smsAdapter = new SmsAdapter(smses);
+
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.rvSmses);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(smsAdapter);
+
+        databaseTable = new DatabaseTable(MainActivity.this, smses);
     }
 
     public void getAllSms(Context context) {
@@ -150,5 +155,32 @@ public class MainActivity extends AppCompatActivity {
                 searchManager.getSearchableInfo(getComponentName()));
 
         return true;
+    }
+
+    private void handleIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            //use the query to search your data somehow
+            Cursor c = databaseTable.getWordMatches(query, null);
+            //process Cursor and display results
+            if (c == null){
+                Log.d("Search results:", "cursor is null");
+            }else{
+                Log.d("Search results:", c.getString(c.getColumnIndex("BODY")));
+            }
+
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        handleIntent(intent);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        Log.d("App resume:", "resumed");
+        handleIntent(getIntent());
     }
 }

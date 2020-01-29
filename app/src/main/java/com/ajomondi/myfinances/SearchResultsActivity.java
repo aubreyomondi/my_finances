@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.SearchManager;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 
 public class SearchResultsActivity extends AppCompatActivity {
@@ -13,6 +14,8 @@ public class SearchResultsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_results);
 
+        //DatabaseTable db = new DatabaseTable(SearchResultsActivity.this);
+
         handleIntent(getIntent());
     }
 
@@ -20,6 +23,8 @@ public class SearchResultsActivity extends AppCompatActivity {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             //use the query to search your data somehow
+            //Cursor c = db.getWordMatches(query, null);
+            //process Cursor and display results
         }
     }
 
