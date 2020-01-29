@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.app.SearchManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -14,6 +15,9 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.Telephony;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -35,27 +39,20 @@ public class MainActivity extends AppCompatActivity {
                 Manifest.permission.READ_SMS)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            // Permission is not granted
-            // Should we show an explanation?
+            // request permission
             if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
                     Manifest.permission.READ_SMS)) {
+                // permission justification
                 Log.d("Explanation Status:", "Explanation needed!");
                 Toast.makeText(this, "Explanation needed!", Toast.LENGTH_SHORT).show();
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
+
             } else {
-                // No explanation needed; request the permission
                 ActivityCompat.requestPermissions(MainActivity.this,
                         new String[]{Manifest.permission.READ_SMS},
                         MY_PERMISSIONS_REQUEST_READ_SMS);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
             }
         } else {
-            // Permission has already been granted
+            // permission has already been granted
             Log.d("Permission Status:", "Permission has already been granted!");
             getAllSms(MainActivity.this);
         }
@@ -104,11 +101,7 @@ public class MainActivity extends AppCompatActivity {
                             smses.add(sms);
                         }
                     }
-
-
                     c.moveToNext();
-
-
                 }
             }
 
@@ -129,22 +122,33 @@ public class MainActivity extends AppCompatActivity {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // permission was granted, yay! Do the
-                    // sms-related task you need to do.
+                    // permission was granted.
                     Log.d("Permission Status:", "Permission Granted!");
                     Toast.makeText(this, "Permission Granted!", Toast.LENGTH_SHORT).show();
                     getAllSms(MainActivity.this);
                 } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
+                    // permission denied
                     Log.d("Permission Status:", "Permission Denied!");
                     Toast.makeText(this, "Permission Denied!", Toast.LENGTH_SHORT).show();
                 }
                 return;
             }
-
-            // other 'case' lines to check for other
-            // permissions this app might request.
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options_menu, menu);
+
+        // Associate searchable configuration with the SearchView
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+
+        return true;
     }
 }
