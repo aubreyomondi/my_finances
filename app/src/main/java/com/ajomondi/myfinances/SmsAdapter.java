@@ -1,8 +1,6 @@
 package com.ajomondi.myfinances;
 
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +23,7 @@ public class SmsAdapter extends RecyclerView.Adapter<SmsAdapter.SmsViewHolder>{
     @Override
     public SmsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
-        View itemView = LayoutInflater.from(context).inflate(R.layout.rv_row, parent, false);
+        View itemView = LayoutInflater.from(context).inflate(R.layout.sms_rv_row, parent, false);
         return new SmsViewHolder(itemView);
     }
 

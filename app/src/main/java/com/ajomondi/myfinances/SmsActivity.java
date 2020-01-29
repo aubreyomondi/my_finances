@@ -24,49 +24,52 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity {
+public class SmsActivity extends AppCompatActivity {
 
     final int MY_PERMISSIONS_REQUEST_READ_SMS = 123;
     ArrayList<Sms> smses = new ArrayList<Sms>();
     Sms sms;
     SmsAdapter smsAdapter;
-    DatabaseTable databaseTable;
+    SmsDatabaseTable smsDatabaseTable;
+    ArrayList<Sms> searchResults = new ArrayList<Sms>();
+    Sms searchResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_sms);
 
-        if (ContextCompat.checkSelfPermission(MainActivity.this,
+        if (ContextCompat.checkSelfPermission(SmsActivity.this,
                 Manifest.permission.READ_SMS)
                 != PackageManager.PERMISSION_GRANTED) {
 
             // request permission
-            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+            if (ActivityCompat.shouldShowRequestPermissionRationale(SmsActivity.this,
                     Manifest.permission.READ_SMS)) {
                 // permission justification
                 Log.d("Explanation Status:", "Explanation needed!");
                 Toast.makeText(this, "Explanation needed!", Toast.LENGTH_SHORT).show();
 
             } else {
-                ActivityCompat.requestPermissions(MainActivity.this,
+                ActivityCompat.requestPermissions(SmsActivity.this,
                         new String[]{Manifest.permission.READ_SMS},
                         MY_PERMISSIONS_REQUEST_READ_SMS);
             }
         } else {
             // permission has already been granted
             Log.d("Permission Status:", "Permission has already been granted!");
-            getAllSms(MainActivity.this);
+            getAllSms(SmsActivity.this);
         }
 
         smsAdapter = new SmsAdapter(smses);
 
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.rvSmses);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(SmsActivity.this));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(smsAdapter);
 
-        databaseTable = new DatabaseTable(MainActivity.this, smses);
+        smsDatabaseTable = new SmsDatabaseTable(SmsActivity.this);
+        SmsDatabaseTable.smses = smses;
     }
 
     public void getAllSms(Context context) {
@@ -130,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
                     // permission was granted.
                     Log.d("Permission Status:", "Permission Granted!");
                     Toast.makeText(this, "Permission Granted!", Toast.LENGTH_SHORT).show();
-                    getAllSms(MainActivity.this);
+                    getAllSms(SmsActivity.this);
                 } else {
                     // permission denied
                     Log.d("Permission Status:", "Permission Denied!");
@@ -161,12 +164,38 @@ public class MainActivity extends AppCompatActivity {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             //use the query to search your data somehow
-            Cursor c = databaseTable.getWordMatches(query, null);
+            Cursor resultsCursor = smsDatabaseTable.getWordMatches(query, null);
             //process Cursor and display results
-            if (c == null){
+            if (resultsCursor == null){
                 Log.d("Search results:", "cursor is null");
             }else{
-                Log.d("Search results:", c.getString(c.getColumnIndex("BODY")));
+                Log.d("Search results:", resultsCursor.getString(resultsCursor.getColumnIndex("BODY")));
+
+                resultsCursor.moveToFirst();
+
+                while (!resultsCursor.isAfterLast()) {
+
+                    String smsDate = resultsCursor.getString(0);
+                    String number = resultsCursor.getString(1);
+                    String body = resultsCursor.getString(2);
+                    Date dateFormat= new Date(Long.valueOf(smsDate));
+                    String type = resultsCursor.getString(4);
+
+                    this.searchResult = new Sms(smsDate, number, body, dateFormat, type);
+
+                    if (searchResult == null) {
+                        Log.d("Search result status:","Null");
+                    } else {
+                        searchResults.add(searchResult);
+                    }
+
+                    resultsCursor.moveToNext();
+                }
+//                Log.d("Search results:", searchResults.get(0).getBody());
+                Intent search_intent = new Intent(SmsActivity.this, SearchResultsActivity.class);
+                search_intent.putExtra("Results", searchResults);
+                SmsActivity.this.startActivity(search_intent);
+
             }
 
         }

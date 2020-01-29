@@ -11,7 +11,7 @@ import android.util.Log;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class DatabaseTable {
+public class SmsDatabaseTable {
     private static final String TAG = "SmsDatabase";
 
     //The columns we'll include in the dictionary table
@@ -28,11 +28,10 @@ public class DatabaseTable {
 
     private final DatabaseOpenHelper databaseOpenHelper;
 
-    private static ArrayList<Sms> smses;
+    public static ArrayList<Sms> smses;
 
-    public DatabaseTable(Context context, ArrayList<Sms> smses) {
+    public SmsDatabaseTable(Context context) {
         databaseOpenHelper = new DatabaseOpenHelper(context);
-        this.smses = smses;
     }
 
     private static class DatabaseOpenHelper extends SQLiteOpenHelper {
