@@ -73,7 +73,6 @@ public class SmsActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.rvSmses);
         recyclerView.setLayoutManager(new LinearLayoutManager(SmsActivity.this));
         recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration();
         recyclerView.setAdapter(smsAdapter);
 
         smsDatabaseTable = new SmsDatabaseTable(SmsActivity.this);
