@@ -6,18 +6,63 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/search_result"
+
+    <ImageView
+        android:id="@+id/imageSms"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/txt_margin_large"
+        android:layout_marginStart="@dimen/txt_margin_standard"
         android:layout_marginTop="@dimen/txt_margin_standard"
-        android:layout_marginEnd="@dimen/txt_margin_standard"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/ic_launcher"
+        android:layout_marginLeft="@dimen/txt_margin_standard" />
+
+    <TextView
+        android:id="@+id/smsNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/txt_margin_standard"
+        android:layout_marginTop="@dimen/txt_margin_standard"
+        android:text="@string/sms_number"
+        android:textSize="@dimen/txt_medium"
+        app:layout_constraintStart_toEndOf="@+id/imageSms"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="@dimen/txt_margin_standard"
+        android:textStyle="bold"
+        android:textColor="@color/txt_medium_color"/>
+
+    <TextView
+        android:id="@+id/smsBody"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/txt_margin_standard"
+        android:layout_marginTop="@dimen/txt_margin_standard"
+        android:layout_marginEnd="@dimen/txt_margin_standard"
+        tools:text="@string/sms_body"
+        android:textSize="@dimen/txt_small"
+        android:scrollHorizontally="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintStart_toEndOf="@+id/imageSms"
+        app:layout_constraintTop_toBottomOf="@+id/smsDate"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginLeft="@dimen/txt_margin_standard"
         android:layout_marginRight="@dimen/txt_margin_standard"/>
+
+    <TextView
+        android:id="@+id/smsDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/txt_margin_standard"
+        android:layout_marginTop="@dimen/txt_margin_standard"
+        android:text="@string/sms_date"
+        app:layout_constraintStart_toEndOf="@+id/smsNumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginRight="@dimen/txt_margin_standard"
+        android:textSize="@dimen/sms_date"
+        android:gravity="right"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

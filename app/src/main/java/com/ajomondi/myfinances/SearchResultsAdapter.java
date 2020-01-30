@@ -9,7 +9,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdapter.SearchResultViewHolder> {
     ArrayList<Sms> searchResults;
@@ -38,16 +40,28 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
     }
 
     public class SearchResultViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        TextView searchResult;
+        TextView smsNumber;
+        TextView smsBody;
+        TextView smsDate;
 
         public SearchResultViewHolder(@NonNull View itemView) {
             super(itemView);
-            searchResult = (TextView) itemView.findViewById(R.id.search_result);
+            smsNumber = (TextView) itemView.findViewById(R.id.smsNumber);
+            smsBody = (TextView) itemView.findViewById(R.id.smsBody);
+            smsDate = (TextView) itemView.findViewById(R.id.smsDate);
             itemView.setOnClickListener(this);
         }
 
         public void bind (Sms result){
-            searchResult.setText(result.getBody());
+            smsNumber.setText(result.getNumber());
+            smsBody.setText(result.getBody());
+
+
+            Date dateFormat= new Date(Long.valueOf(result.getDateFormat()));
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy");
+            String date = simpleDateFormat.format(dateFormat);
+
+            smsDate.setText(date);
         }
 
         @Override

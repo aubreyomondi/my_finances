@@ -54,7 +54,7 @@ public class SmsAdapter extends RecyclerView.Adapter<SmsAdapter.SmsViewHolder>{
         public void bind (Sms sms){
             smsNumber.setText(sms.getNumber());
             smsBody.setText(sms.getBody());
-            smsDate.setText(sms.getDateFormat().toString());
+            smsDate.setText(sms.getDateFormat());
         }
 
         @Override
