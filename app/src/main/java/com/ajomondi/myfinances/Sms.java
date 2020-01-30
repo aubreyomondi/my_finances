@@ -8,10 +8,10 @@ public class Sms implements Serializable {
     private String smsDate;
     private String number;
     private String body;
-    private Date dateFormat;
+    private String dateFormat;
     private String type;
 
-    public Sms(String smsDate, String number, String body, Date dateFormat, String type) {
+    public Sms(String smsDate, String number, String body, String dateFormat, String type) {
         this.smsDate = smsDate;
         this.number = number;
         this.body = body;
@@ -31,7 +31,7 @@ public class Sms implements Serializable {
         return body;
     }
 
-    public Date getDateFormat() {
+    public String getDateFormat() {
         return dateFormat;
     }
 
@@ -51,7 +51,7 @@ public class Sms implements Serializable {
         this.body = body;
     }
 
-    public void setDateFormat(Date dateFormat) {
+    public void setDateFormat(String dateFormat) {
         this.dateFormat = dateFormat;
     }
 

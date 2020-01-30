@@ -1,5 +1,7 @@
 package com.ajomondi.myfinances;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -21,6 +23,11 @@ import android.view.MenuInflater;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.FieldPosition;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -66,6 +73,7 @@ public class SmsActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.rvSmses);
         recyclerView.setLayoutManager(new LinearLayoutManager(SmsActivity.this));
         recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration();
         recyclerView.setAdapter(smsAdapter);
 
         smsDatabaseTable = new SmsDatabaseTable(SmsActivity.this);
@@ -84,7 +92,13 @@ public class SmsActivity extends AppCompatActivity {
                     String smsDate = c.getString(c.getColumnIndexOrThrow(Telephony.Sms.DATE));
                     String number = c.getString(c.getColumnIndexOrThrow(Telephony.Sms.ADDRESS));
                     String body = c.getString(c.getColumnIndexOrThrow(Telephony.Sms.BODY));
+                    Log.d("smsDate", smsDate);
                     Date dateFormat= new Date(Long.valueOf(smsDate));
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy");
+                    String date = simpleDateFormat.format(dateFormat);
+                    Log.d("date", date);
+//                    Date new_date = new Date(Long.valueOf(date));
+
                     String type = "";
                     switch (Integer.parseInt(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.TYPE)))) {
                         case Telephony.Sms.MESSAGE_TYPE_INBOX:
@@ -100,7 +114,7 @@ public class SmsActivity extends AppCompatActivity {
                             break;
                     }
 
-                    this.sms = new Sms(smsDate, number, body, dateFormat, type);
+                    this.sms = new Sms(smsDate, number, body, date, type);
 
                     if (sms == null) {
                         Log.d("Sms status:","Null");
@@ -178,10 +192,12 @@ public class SmsActivity extends AppCompatActivity {
                     String smsDate = resultsCursor.getString(0);
                     String number = resultsCursor.getString(1);
                     String body = resultsCursor.getString(2);
-                    Date dateFormat= new Date(Long.valueOf(smsDate));
+                    //Date dateFormat= new Date(Long.valueOf(smsDate));
+                    //DateFormat date = new DateFormat(dateFormat);
+
                     String type = resultsCursor.getString(4);
 
-                    this.searchResult = new Sms(smsDate, number, body, dateFormat, type);
+                    this.searchResult = new Sms(smsDate, number, body, smsDate, type);
 
                     if (searchResult == null) {
                         Log.d("Search result status:","Null");

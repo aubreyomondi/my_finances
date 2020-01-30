@@ -39,16 +39,22 @@ public class SmsAdapter extends RecyclerView.Adapter<SmsAdapter.SmsViewHolder>{
     }
 
     public class SmsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        TextView smsNumber;
         TextView smsBody;
+        TextView smsDate;
 
         public SmsViewHolder(@NonNull View itemView) {
             super(itemView);
+            smsNumber = (TextView) itemView.findViewById(R.id.smsNumber);
             smsBody = (TextView) itemView.findViewById(R.id.smsBody);
+            smsDate = (TextView) itemView.findViewById(R.id.smsDate);
             itemView.setOnClickListener(this);
         }
 
         public void bind (Sms sms){
+            smsNumber.setText(sms.getNumber());
             smsBody.setText(sms.getBody());
+            smsDate.setText(sms.getDateFormat().toString());
         }
 
         @Override
