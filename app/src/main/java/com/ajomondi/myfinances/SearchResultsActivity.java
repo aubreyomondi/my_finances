@@ -30,6 +30,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.rvSmsResults);
         recyclerView.setLayoutManager(new LinearLayoutManager(SearchResultsActivity.this));
         recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new SimpleDividerItemDecoration(this));
         recyclerView.setAdapter(searchResultsAdapter);
     }
 

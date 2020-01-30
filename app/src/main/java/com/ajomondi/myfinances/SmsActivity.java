@@ -15,11 +15,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.Telephony;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -73,6 +76,7 @@ public class SmsActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.rvSmses);
         recyclerView.setLayoutManager(new LinearLayoutManager(SmsActivity.this));
         recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new SimpleDividerItemDecoration(this));
         recyclerView.setAdapter(smsAdapter);
 
         smsDatabaseTable = new SmsDatabaseTable(SmsActivity.this);

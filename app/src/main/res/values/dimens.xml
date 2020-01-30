@@ -7,4 +7,7 @@
     <dimen name="txt_medium">16dp</dimen>
     <dimen name="txt_large">18sp</dimen>
     <dimen name="sms_date">13sp</dimen>
+    <dimen name="txt_padding_standard">16dp</dimen>
+    <dimen name="txt_padding_medium">20dp</dimen>
+    <dimen name="txt_padding_large">24dp</dimen>
 </resources>
