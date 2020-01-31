@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 public class SmsAdapter extends RecyclerView.Adapter<SmsAdapter.SmsViewHolder>{
     ArrayList<Sms> smses;
+   // ArrayList<Integer> positions = new ArrayList<Integer>();
 
     public SmsAdapter(ArrayList<Sms> mSmses){
         this.smses = mSmses;
@@ -29,6 +30,7 @@ public class SmsAdapter extends RecyclerView.Adapter<SmsAdapter.SmsViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull SmsViewHolder holder, int position) {
+     //   positions.add(position);
         Sms sms = smses.get(position);
         holder.bind(sms);
     }
