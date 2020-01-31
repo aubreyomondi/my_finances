@@ -1,6 +1,8 @@
 package com.ajomondi.myfinances;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +63,12 @@ public class SmsAdapter extends RecyclerView.Adapter<SmsAdapter.SmsViewHolder>{
 
         @Override
         public void onClick(View view) {
-
+            int position = getAdapterPosition();
+            Log.d("Click", String.valueOf(position));
+            Sms selectedSms = smses.get(position);
+            Intent intent = new Intent(view.getContext(), SmsDetailActivity.class);
+            intent.putExtra("Sms", selectedSms);
+            view.getContext().startActivity(intent);
         }
     }
 }

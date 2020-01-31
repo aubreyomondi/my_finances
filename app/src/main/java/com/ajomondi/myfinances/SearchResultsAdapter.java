@@ -1,6 +1,8 @@
 package com.ajomondi.myfinances;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +68,12 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 
         @Override
         public void onClick(View view) {
-
+            int position = getAdapterPosition();
+            Log.d("Click", String.valueOf(position));
+            Sms selectedSms = searchResults.get(position);
+            Intent intent = new Intent(view.getContext(), SmsDetailActivity.class);
+            intent.putExtra("Sms", selectedSms);
+            view.getContext().startActivity(intent);
         }
     }
 }
