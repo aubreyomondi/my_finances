@@ -15,9 +15,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginRight="@dimen/txt_margin_large"
-        android:layout_marginLeft="@dimen/txt_margin_large"
-        android:layout_marginStart="@dimen/txt_margin_large"
-        android:layout_marginEnd="@dimen/txt_margin_large"
+        android:gravity="center"
         android:textSize="@dimen/txt_large"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
